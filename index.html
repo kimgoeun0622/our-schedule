@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>우리 둘의 스케줄 🗓️</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #FAF7F4;
+      --card: #FFFFFF;
+      --text: #2B2623;
+      --muted: #8C827A;
+      --line: #EFE8E1;
+      --goun: #8B6CE8;
+      --goun-soft: #F1ECFE;
+      --friend: #F27D68;
+      --friend-soft: #FFF0EC;
+      --together: #2CB59A;
+      --together-soft: #E8F9F5;
+      --accent: #7D5CE6;
+      --shadow: 0 8px 24px rgba(56, 42, 32, 0.06);
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #F2ECE6;
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 430px;
+      min-height: 100vh;
+      background: var(--bg);
+      padding: 20px 18px 96px;
+      position: relative;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .title-wrap h1 {
+      margin: 0;
+      font-size: 21px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+    }
+    .title-wrap p {
+      margin: 3px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+    .dday-pill {
+      background: linear-gradient(135deg, #8B6CE8, #F27D68);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(139, 108, 232, 0.25);
+      white-space: nowrap;
+    }
+
+    /* Filter Chips */
+    .filters {
+      display: flex;
+      gap: 7px;
+      margin-bottom: 14px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+    .chip {
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      color: var(--muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.15s ease;
+    }
+    .chip .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .chip.active {
+      border-color: var(--text);
+      background: var(--text);
+      color: #fff;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #EFE9E2;
+      padding: 4px;
+      border-radius: 14px;
+      margin-bottom: 14px;
+    }
+    .tab-btn {
+      border: none;
+      background: transparent;
+      padding: 9px;
+      border-radius: 11px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    /* Calendar Card */
+    .card {
+      background: var(--card);
+      border-radius: 22px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      margin-bottom: 14px;
+    }
+    .cal-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .cal-month {
+      font-size: 16.5px;
+      font-weight: 800;
+    }
+    .cal-nav {
+      display: flex;
+      gap: 6px;
+    }
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      font-size: 15px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+    }
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .weekdays span:first-child { color: #E26A5B; }
+    .weekdays span:last-child { color: #6B8AE6; }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .day {
+      aspect-ratio: 1 / 1.05;
+      border-radius: 13px;
+      border: 1.5px solid transparent;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      position: relative;
+      transition: background 0.12s;
+    }
+    .day:hover { background: #FAF6F2; }
+    .day.other { color: #CBC3BC; }
+    .day.today {
+      background: #F4EFEA;
+      font-weight: 800;
+    }
+    .day.selected {
+      border-color: var(--accent);
+      background: var(--goun-soft);
+      color: var(--accent);
+      font-weight: 800;
+    }
+    .day-dots {
+      display: flex;
+      gap: 3px;
+      height: 6px;
+    }
+    .day-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+
+    /* Schedule List */
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 4px 2px 10px;
+    }
+    .section-head h2 {
+      margin: 0;
+      font-size: 15.5px;
+      font-weight: 800;
+    }
+    .section-head span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .event-list {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+    .event-item {
+      background: var(--card);
+      border-radius: 17px;
+      padding: 13px 14px;
+      box-shadow: 0 4px 14px rgba(56, 42, 32, 0.04);
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      border-left: 4px solid var(--goun);
+    }
+    .event-item.friend { border-left-color: var(--friend); }
+    .event-item.together { border-left-color: var(--together); }
+
+    .event-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 8px;
+      border-radius: 8px;
+      white-space: nowrap;
+      margin-top: 1px;
+    }
+    .badge-goun { background: var(--goun-soft); color: var(--goun); }
+    .badge-friend { background: var(--friend-soft); color: var(--friend); }
+    .badge-together { background: var(--together-soft); color: var(--together); }
+
+    .event-body { flex: 1; min-width: 0; }
+    .event-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+    .event-meta {
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .del-btn {
+      border: none;
+      background: transparent;
+      color: #C2B8B0;
+      font-size: 15px;
+      cursor: pointer;
+      padding: 2px 4px;
+    }
+    .del-btn:hover { color: #E26A5B; }
+
+    .empty {
+      text-align: center;
+      padding: 26px 12px;
+      color: var(--muted);
+      font-size: 13px;
+      background: var(--card);
+      border-radius: 18px;
+      border: 1.5px dashed var(--line);
+    }
+
+    /* Memo / Wish Tab */
+    .memo-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .memo-input-row input {
+      flex: 1;
+      border: 1.5px solid var(--line);
+      border-radius: 13px;
+      padding: 11px 13px;
+      font-size: 13.5px;
+      font-family: inherit;
+      background: var(--bg);
+      outline: none;
+    }
+    .memo-input-row input:focus { border-color: var(--accent); background: #fff; }
+    .btn-primary {
+      border: none;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13.5px;
+      padding: 0 15px;
+      border-radius: 13px;
+      cursor: pointer;
+    }
+    .memo-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 11px 12px;
+      background: var(--bg);
+      border-radius: 13px;
+      margin-bottom: 8px;
+    }
+    .memo-item.done span {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .memo-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--together);
+      cursor: pointer;
+    }
+    .memo-item span { flex: 1; font-size: 13.5px; font-weight: 500; }
+
+    /* FAB */
+    .fab {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--text);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 13px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 10px 26px rgba(43, 38, 35, 0.25);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 20;
+    }
+
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(25, 20, 18, 0.42);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 50;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal {
+      width: 100%;
+      max-width: 430px;
+      background: #fff;
+      border-radius: 24px 24px 0 0;
+      padding: 20px 18px 26px;
+      animation: slideUp 0.18s ease-out;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal h3 { margin: 0 0 14px; font-size: 17px; font-weight: 800; }
+    .field { margin-bottom: 11px; }
+    .field label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+    .field input, .field select {
+      width: 100%;
+      border: 1.5px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .btn-ghost {
+      border: 1.5px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 12px;
+      border-radius: 13px;
+      cursor: pointer;
+    }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="header">
+      <div class="title-wrap">
+        <h1>우리 둘의 스케줄 🗓️</h1>
+        <p>고운 × JK 공유 캘린더 (시안)</p>
+      </div>
+      <div class="dday-pill" id="ddayPill">약속 D-Day</div>
+    </div>
+
+    <div class="filters">
+      <button class="chip active" data-filter="all">전체 보기</button>
+      <button class="chip" data-filter="together"><span class="dot" style="background:var(--together)"></span>함께</button>
+      <button class="chip" data-filter="goun"><span class="dot" style="background:var(--goun)"></span>고운</button>
+      <button class="chip" data-filter="friend"><span class="dot" style="background:var(--friend)"></span>JK</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="calendar">📅 캘린더</button>
+      <button class="tab-btn" data-tab="memo">📝 같이 할 일 · 메모</button>
+    </div>
+
+    <div id="calendarView">
+      <div class="card">
+        <div class="cal-head">
+          <div class="cal-month" id="calMonthLabel">2026년 11월</div>
+          <div class="cal-nav">
+            <button class="icon-btn" id="prevMonth" aria-label="이전 달">‹</button>
+            <button class="icon-btn" id="nextMonth" aria-label="다음 달">›</button>
+          </div>
+        </div>
+        <div class="weekdays">
+          <span>일</span><span>월</span><span>화</span><span>수</span><span>목</span><span>금</span><span>토</span>
+        </div>
+        <div class="days" id="calDays"></div>
+      </div>
+
+      <div class="section-head">
+        <h2 id="selectedDateLabel">선택한 날 일정</h2>
+        <span id="eventCountLabel">0건</span>
+      </div>
+      <div class="event-list" id="eventList"></div>
+    </div>
+
+    <div id="memoView" class="hidden">
+      <div class="card">
+        <div class="memo-input-row">
+          <input type="text" id="memoInput" placeholder="같이 갈 맛집, 여행 준비물 적어두기..." />
+          <button class="btn-primary" id="addMemoBtn">추가</button>
+        </div>
+        <div id="memoList"></div>
+      </div>
+    </div>
+
+    <button class="fab" id="openModalBtn">+ 일정 추가하기</button>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal">
+      <h3>새 일정 넣기</h3>
+      <div class="field">
+        <label>누구 일정인가요?</label>
+        <select id="evOwner">
+          <option value="together">✨ 함께 (우리 약속)</option>
+          <option value="goun">💜 고운</option>
+          <option value="friend">🍑 JK</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>일정 제목</label>
+        <input type="text" id="evTitle" placeholder="예: 해운대 브런치, 부산대 카페" />
+      </div>
+      <div class="field">
+        <label>날짜 &amp; 시간</label>
+        <div style="display:grid; grid-template-columns:1.2fr 1fr; gap:8px;">
+          <input type="date" id="evDate" />
+          <input type="time" id="evTime" value="12:00" />
+        </div>
+      </div>
+      <div class="field">
+        <label>메모 (선택)</label>
+        <input type="text" id="evNote" placeholder="장소나 준비물 등" />
+      </div>
+      <div class="modal-actions">
+        <button class="btn-ghost" id="closeModalBtn">취소</button>
+        <button class="btn-primary" id="saveEventBtn" style="padding:12px;">저장하기</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TODAY_STR = '2026-11-21';
+    const STORAGE_EV = 'goun_friend_schedule_events_v1';
+    const STORAGE_MEMO = 'goun_friend_schedule_memos_v1';
+
+    const defaultEvents = [
+      { id: 1, date: '2026-11-21', time: '14:00', owner: 'together', title: '카페 & 수다 타임', note: '조용한 카페 가기' },
+      { id: 2, date: '2026-11-24', time: '12:30', owner: 'together', title: '점심 브런치 & 수다', note: '화명동 카페 후보 정하기' },
+      { id: 3, date: '2026-11-26', time: '19:00', owner: 'friend', title: 'JK 저녁 약속', note: '7시 이후 통화 가능' },
+      { id: 4, date: '2026-11-29', time: '11:00', owner: 'together', title: '일본/국내 여행 코스 짜기', note: '노트북 챙겨오기' }
+    ];
+
+    const defaultMemos = [
+      { id: 1, text: '마들렌 맛있는 디저트 카페 가기', done: false },
+      { id: 2, text: '다음 모임 날짜 확정하기', done: true },
+      { id: 3, text: '항공권·배편 일정 같이 보기', done: false }
+    ];
+
+    let events = JSON.parse(localStorage.getItem(STORAGE_EV) || 'null') || defaultEvents;
+    let memos = JSON.parse(localStorage.getItem(STORAGE_MEMO) || 'null') || defaultMemos;
+
+    let currentYear = 2026;
+    let currentMonth = 10; // 0-indexed: 10 = November
+    let selectedDate = TODAY_STR;
+    let activeFilter = 'all';
+
+    function saveAll() {
+      localStorage.setItem(STORAGE_EV, JSON.stringify(events));
+      localStorage.setItem(STORAGE_MEMO, JSON.stringify(memos));
+    }
+
+    function formatDateStr(y, m, d) {
+      return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    }
+
+    function updateDday() {
+      const today = new Date(TODAY_STR + 'T00:00:00');
+      const upcoming = events
+        .filter(e => e.owner === 'together' && e.date >= TODAY_STR)
+        .sort((a, b) => a.date.localeCompare(b.date))[0];
+      const pill = document.getElementById('ddayPill');
+      if (!upcoming) {
+        pill.textContent = '다음 약속 잡기 ✨';
+        return;
+      }
+      const target = new Date(upcoming.date + 'T00:00:00');
+      const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
+      pill.textContent = diff === 0 ? `오늘 약속! 🎉` : `우리 약속 D-${diff}`;
+    }
+
+    function renderCalendar() {
+      document.getElementById('calMonthLabel').textContent = `${currentYear}년 ${currentMonth + 1}월`;
+      const container = document.getElementById('calDays');
+      container.innerHTML = '';
+
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+      const prevDays = new Date(currentYear, currentMonth, 0).getDate();
+
+      for (let i = firstDay - 1; i >= 0; i--) {
+        const cell = document.createElement('div');
+        cell.className = 'day other';
+        cell.innerHTML = `<span>${prevDays - i}</span><div class="day-dots"></div>`;
+        container.appendChild(cell);
+      }
+
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dStr = formatDateStr(currentYear, currentMonth, d);
+        const cell = document.createElement('div');
+        cell.className = 'day';
+        if (dStr === TODAY_STR) cell.classList.add('today');
+        if (dStr === selectedDate) cell.classList.add('selected');
+
+        const dayEvents = events.filter(e => e.date === dStr && (activeFilter === 'all' || e.owner === activeFilter));
+        const owners = [...new Set(dayEvents.map(e => e.owner))].slice(0, 3);
+        const colorMap = { goun: 'var(--goun)', friend: 'var(--friend)', together: 'var(--together)' };
+        const dotsHtml = owners.map(o => `<span class="day-dot" style="background:${colorMap[o]}"></span>`).join('');
+
+        cell.innerHTML = `<span>${d}</span><div class="day-dots">${dotsHtml}</div>`;
+        cell.onclick = () => {
+          selectedDate = dStr;
+          renderCalendar();
+          renderEvents();
+        };
+        container.appendChild(cell);
+      }
+    }
+
+    function renderEvents() {
+      const [y, m, d] = selectedDate.split('-');
+      document.getElementById('selectedDateLabel').textContent = `${Number(m)}월 ${Number(d)}일 일정`;
+
+      const list = events
+        .filter(e => e.date === selectedDate && (activeFilter === 'all' || e.owner === activeFilter))
+        .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+
+      document.getElementById('eventCountLabel').textContent = `${list.length}건`;
+      const container = document.getElementById('eventList');
+
+      if (list.length === 0) {
+        container.innerHTML = `<div class="empty">이날은 아직 일정이 비어 있어요.<br/>아래 <b>+ 일정 추가하기</b>로 편하게 넣어보세요!</div>`;
+        return;
+      }
+
+      const ownerInfo = {
+        together: { label: '함께', cls: 'badge-together' },
+        goun: { label: '고운', cls: 'badge-goun' },
+        friend: { label: 'JK', cls: 'badge-friend' }
+      };
+
+      container.innerHTML = list.map(ev => `
+        <div class="event-item ${ev.owner}">
+          <span class="event-badge ${ownerInfo[ev.owner].cls}">${ownerInfo[ev.owner].label}</span>
+          <div class="event-body">
+            <div class="event-title">${ev.title}</div>
+            <div class="event-meta">${ev.time || '시간 미정'}${ev.note ? ' · ' + ev.note : ''}</div>
+          </div>
+          <button class="del-btn" onclick="deleteEvent(${ev.id})" title="삭제">✕</button>
+        </div>
+      `).join('');
+    }
+
+    window.deleteEvent = function(id) {
+      events = events.filter(e => e.id !== id);
+      saveAll();
+      updateDday();
+      renderCalendar();
+      renderEvents();
+    };
+
+    function renderMemos() {
+      const container = document.getElementById('memoList');
+      if (memos.length === 0) {
+        container.innerHTML = `<div class="empty">같이 가고 싶은 곳이나 할 일을 적어보세요!</div>`;
+        return;
+      }
+      container.innerHTML = memos.map(m => `
+        <div class="memo-item ${m.done ? 'done' : ''}">
+          <input type="checkbox" ${m.done ? 'checked' : ''} onchange="toggleMemo(${m.id})" />
+          <span>${m.text}</span>
+          <button class="del-btn" onclick="deleteMemo(${m.id})">✕</button>
+        </div>
+      `).join('');
+    }
+
+    window.toggleMemo = function(id) {
+      memos = memos.map(m => m.id === id ? { ...m, done: !m.done } : m);
+      saveAll();
+      renderMemos();
+    };
+    window.deleteMemo = function(id) {
+      memos = memos.filter(m => m.id !== id);
+      saveAll();
+      renderMemos();
+    };
+
+    document.querySelectorAll('.chip').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.filter;
+        renderCalendar();
+        renderEvents();
+      };
+    });
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.onclick = () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const tab = btn.dataset.tab;
+        document.getElementById('calendarView').classList.toggle('hidden', tab !== 'calendar');
+        document.getElementById('memoView').classList.toggle('hidden', tab !== 'memo');
+        document.getElementById('openModalBtn').classList.toggle('hidden', tab !== 'calendar');
+      };
+    });
+
+    document.getElementById('prevMonth').onclick = () => {
+      currentMonth--;
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    };
+    document.getElementById('nextMonth').onclick = () => {
+      currentMonth++;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      renderCalendar();
+    };
+
+    document.getElementById('addMemoBtn').onclick = () => {
+      const input = document.getElementById('memoInput');
+      const text = input.value.trim();
+      if (!text) return;
+      memos.unshift({ id: Date.now(), text, done: false });
+      input.value = '';
+      saveAll();
+      renderMemos();
+    };
+
+    const backdrop = document.getElementById('modalBackdrop');
+    document.getElementById('openModalBtn').onclick = () => {
+      document.getElementById('evDate').value = selectedDate;
+      document.getElementById('evTitle').value = '';
+      document.getElementById('evNote').value = '';
+      backdrop.classList.add('open');
+    };
+    document.getElementById('closeModalBtn').onclick = () => backdrop.classList.remove('open');
+    backdrop.onclick = (e) => { if (e.target === backdrop) backdrop.classList.remove('open'); };
+
+    document.getElementById('saveEventBtn').onclick = () => {
+      const title = document.getElementById('evTitle').value.trim();
+      if (!title) return alert('일정 제목을 입력해 주세요!');
+      const date = document.getElementById('evDate').value || selectedDate;
+      const time = document.getElementById('evTime').value;
+      const owner = document.getElementById('evOwner').value;
+      const note = document.getElementById('evNote').value.trim();
+
+      events.push({ id: Date.now(), date, time, owner, title, note });
+      selectedDate = date;
+      const [y, m] = date.split('-');
+      currentYear = Number(y);
+      currentMonth = Number(m) - 1;
+
+      saveAll();
+      backdrop.classList.remove('open');
+      updateDday();
+      renderCalendar();
+      renderEvents();
+    };
+
+    updateDday();
+    renderCalendar();
+    renderEvents();
+    renderMemos();
+  </script>
+</body>
+</html>
