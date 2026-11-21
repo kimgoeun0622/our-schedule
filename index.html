@@ -1070,13 +1070,36 @@ create policy "memos_pin" on public.schedule_memos for all to anon, authenticate
 
     async function seedCloud() {
       if (localStorage.getItem(STORAGE_SEED)) return;
-      const localEv = readJSON(STORAGE_EV, []);
-      const localMemo = readJSON(STORAGE_MEMO, []);
-      const evRows = (localEv.length ? localEv : defaultEvents).map(rowFromEvent);
-      const memoRows = (localMemo.length ? localMemo : defaultMemos).map(rowFromMemo);
-      await api('/schedule_events', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(evRows) });
-      await api('/schedule_memos', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(memoRows) });
       localStorage.setItem(STORAGE_SEED, '1');
+      // DB가 비어 있을 때 예시 일정을 자동으로 넣지 않습니다.
+      // 예전 버전에서 이 기기에 직접 적어둔 일정이 있으면 그것만 옮겨옵니다.
+      let evRows = [];
+      let memoRows = [];
+      try {
+        const rawEv = localStorage.getItem(STORAGE_EV);
+        const rawMemo = localStorage.getItem(STORAGE_MEMO);
+        if (rawEv) {
+          const localEv = JSON.parse(rawEv);
+          if (Array.isArray(localEv) && localEv.length &&
+              JSON.stringify(localEv) !== JSON.stringify(defaultEvents)) {
+            evRows = localEv.map(rowFromEvent).filter(r => /^\d{4}-\d{2}-\d{2}$/.test(String(r.date || '')));
+          }
+        }
+        if (rawMemo) {
+          const localMemo = JSON.parse(rawMemo);
+          if (Array.isArray(localMemo) && localMemo.length &&
+              JSON.stringify(localMemo) !== JSON.stringify(defaultMemos)) {
+            memoRows = localMemo.map(rowFromMemo);
+          }
+        }
+      } catch (e) { /* 형식이 깨진 예전 값은 옮기지 않습니다 */ }
+      if (!evRows.length && !memoRows.length) return;
+      if (evRows.length) {
+        await api('/schedule_events', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(evRows) });
+      }
+      if (memoRows.length) {
+        await api('/schedule_memos', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(memoRows) });
+      }
     }
 
     let syncPromise = null;
