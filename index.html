@@ -1426,7 +1426,8 @@ create policy "memos_pin" on public.schedule_memos for all to anon, authenticate
       const titleEl = document.getElementById('evTitle');
       const title = titleEl.value.trim();
       if (!title) { alert('일정 제목을 입력해 주세요!'); return; }
-      const date = document.getElementById('evDate').value || selectedDate;
+      const rawDate = document.getElementById('evDate').value;
+      const date = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : selectedDate;
       const time = document.getElementById('evTime').value;
       const owner = document.getElementById('evOwner').value;
       const note = document.getElementById('evNote').value.trim();
