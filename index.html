@@ -49,7 +49,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
+      gap: 8px;
     }
     .title-wrap h1 {
       margin: 0;
@@ -62,6 +63,7 @@
       font-size: 12.5px;
       color: var(--muted);
     }
+    .header-right { display: flex; align-items: center; gap: 6px; }
     .dday-pill {
       background: linear-gradient(135deg, #8B6CE8, #F27D68);
       color: #fff;
@@ -71,6 +73,82 @@
       border-radius: 999px;
       box-shadow: 0 4px 12px rgba(139, 108, 232, 0.25);
       white-space: nowrap;
+    }
+    .lock-pill {
+      width: 34px;
+      height: 30px;
+      border-radius: 999px;
+      border: 1.5px solid var(--line);
+      background: var(--card);
+      font-size: 13px;
+      line-height: 1;
+      cursor: pointer;
+      color: var(--text);
+      display: grid;
+      place-items: center;
+    }
+
+    /* Sync line */
+    .sync-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--muted);
+      margin: 0 2px 10px;
+      gap: 8px;
+    }
+    .sync-btn {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      padding: 2px 0;
+    }
+    .sync-btn:active { opacity: .55; }
+    .sync-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; margin-right: 5px; background: #2CB59A; }
+    .sync-dot.warn { background: #E2A24B; }
+
+    /* Banner */
+    .banner {
+      background: #FFF6E8;
+      border: 1.5px solid #F1D9B0;
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: #6B5636;
+    }
+    .banner strong { display: block; font-size: 13px; margin-bottom: 2px; color: #4E3D22; }
+    .banner .banner-actions { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+    .banner .small-btn {
+      border: 1.5px solid #E8CFA8;
+      background: #fff;
+      color: #6B5636;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 7px 11px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .banner pre {
+      max-height: 170px;
+      overflow: auto;
+      background: #fff;
+      border: 1px solid #EFE8E1;
+      border-radius: 10px;
+      padding: 9px;
+      font-size: 10.5px;
+      line-height: 1.45;
+      margin: 9px 0 0;
+      white-space: pre;
+      color: #4E3D22;
+      -webkit-overflow-scrolling: touch;
     }
 
     /* Filter Chips */
@@ -94,6 +172,7 @@
       align-items: center;
       gap: 5px;
       transition: all 0.15s ease;
+      white-space: nowrap;
     }
     .chip .dot {
       width: 8px;
@@ -124,6 +203,7 @@
       font-weight: 700;
       color: var(--muted);
       cursor: pointer;
+      font-family: inherit;
     }
     .tab-btn.active {
       background: var(--card);
@@ -272,10 +352,12 @@
       font-size: 14.5px;
       font-weight: 700;
       margin-bottom: 3px;
+      word-break: break-word;
     }
     .event-meta {
       font-size: 12px;
       color: var(--muted);
+      word-break: break-word;
     }
     .del-btn {
       border: none;
@@ -295,6 +377,7 @@
       background: var(--card);
       border-radius: 18px;
       border: 1.5px dashed var(--line);
+      line-height: 1.6;
     }
 
     /* Memo / Wish Tab */
@@ -312,6 +395,7 @@
       font-family: inherit;
       background: var(--bg);
       outline: none;
+      min-width: 0;
     }
     .memo-input-row input:focus { border-color: var(--accent); background: #fff; }
     .btn-primary {
@@ -323,6 +407,7 @@
       padding: 0 15px;
       border-radius: 13px;
       cursor: pointer;
+      font-family: inherit;
     }
     .memo-item {
       display: flex;
@@ -342,8 +427,9 @@
       height: 18px;
       accent-color: var(--together);
       cursor: pointer;
+      flex: none;
     }
-    .memo-item span { flex: 1; font-size: 13.5px; font-weight: 500; }
+    .memo-item span { flex: 1; font-size: 13.5px; font-weight: 500; word-break: break-word; }
 
     /* FAB */
     .fab {
@@ -364,6 +450,7 @@
       align-items: center;
       gap: 6px;
       z-index: 20;
+      font-family: inherit;
     }
 
     /* Modal */
@@ -406,6 +493,8 @@
       font-size: 14px;
       font-family: inherit;
       outline: none;
+      background: #fff;
+      color: var(--text);
     }
     .field input:focus { border-color: var(--accent); }
     .modal-actions {
@@ -422,8 +511,102 @@
       padding: 12px;
       border-radius: 13px;
       cursor: pointer;
+      font-family: inherit;
     }
     .hidden { display: none !important; }
+
+    /* Lock screen */
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: linear-gradient(165deg, #FAF7F4 0%, #F3EDFB 55%, #FFF2EC 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 26px 22px;
+    }
+    .lock-box { width: 100%; max-width: 330px; text-align: center; }
+    .lock-emoji {
+      width: 62px;
+      height: 62px;
+      margin: 0 auto 14px;
+      border-radius: 22px;
+      background: #fff;
+      box-shadow: 0 10px 26px rgba(125, 92, 230, 0.16);
+      display: grid;
+      place-items: center;
+      font-size: 28px;
+    }
+    .lock-box h3 {
+      margin: 0;
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+    }
+    .lock-box .lock-sub {
+      margin: 6px 0 0;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+    .pin-dots {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      margin: 22px 0 6px;
+    }
+    .pin-dots span {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid #C9BEE0;
+      transition: background .14s, border-color .14s, transform .14s;
+    }
+    .pin-dots span.filled {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.08);
+    }
+    .pin-error {
+      height: 20px;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #E26A5B;
+      line-height: 20px;
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+      margin-top: 8px;
+    }
+    .keypad button {
+      height: 56px;
+      border-radius: 18px;
+      border: 1.5px solid var(--line);
+      background: #fff;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .keypad button:active { transform: scale(0.96); background: #F6F1EC; }
+    .keypad button.ghost {
+      border-color: transparent;
+      background: transparent;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .shake { animation: shake .32s; }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-7px); }
+      40% { transform: translateX(7px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
   </style>
 </head>
 <body>
@@ -431,9 +614,28 @@
     <div class="header">
       <div class="title-wrap">
         <h1>우리 둘의 스케줄 🗓️</h1>
-        <p>고운 × JK 공유 캘린더 (시안)</p>
+        <p>고운 × JK 공유 캘린더</p>
       </div>
-      <div class="dday-pill" id="ddayPill">약속 D-Day</div>
+      <div class="header-right">
+        <div class="dday-pill" id="ddayPill">약속 D-Day</div>
+        <button class="lock-pill" id="lockBtn" title="잠그기" aria-label="잠그기">🔒</button>
+      </div>
+    </div>
+
+    <div class="sync-line">
+      <span id="syncStatus"><span class="sync-dot warn"></span>연결 확인 중…</span>
+      <button class="sync-btn" id="refreshBtn">↻ 새로고침</button>
+    </div>
+
+    <div class="banner hidden" id="setupBanner">
+      <strong id="bannerTitle">실시간 동기화를 준비하고 있어요</strong>
+      <div id="bannerBody"></div>
+      <div class="banner-actions" id="bannerActions">
+        <button class="small-btn" id="showSqlBtn">설정 SQL 보기</button>
+        <button class="small-btn" id="copySqlBtn">SQL 복사</button>
+        <button class="small-btn" id="retryBtn">다시 연결</button>
+      </div>
+      <pre id="sqlBox" class="hidden"></pre>
     </div>
 
     <div class="filters">
@@ -516,45 +718,494 @@
     </div>
   </div>
 
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-box">
+      <div class="lock-emoji">🔒</div>
+      <h3>우리 둘만의 스케줄</h3>
+      <p class="lock-sub">둘만 아는 4자리 비밀번호를 입력해 주세요</p>
+      <div class="pin-dots" id="pinDots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="pin-error" id="pinError"></div>
+      <div class="keypad" id="keypad">
+        <button data-key="1">1</button>
+        <button data-key="2">2</button>
+        <button data-key="3">3</button>
+        <button data-key="4">4</button>
+        <button data-key="5">5</button>
+        <button data-key="6">6</button>
+        <button data-key="7">7</button>
+        <button data-key="8">8</button>
+        <button data-key="9">9</button>
+        <button data-key="clear" class="ghost">전체 지우기</button>
+        <button data-key="0">0</button>
+        <button data-key="back" class="ghost">⌫</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const NOW = new Date();
-    const TODAY_STR = `${NOW.getFullYear()}-${String(NOW.getMonth() + 1).padStart(2, '0')}-${String(NOW.getDate()).padStart(2, '0')}`;
+    /* ─────────────────────────────────────────────
+       설정값
+       ───────────────────────────────────────────── */
+    const SUPABASE_URL = 'https://fezhxoammerktpfjvhal.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZlemh4b2FtbWVya3RwZmp2aGFsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTUyNTg4MjUsImV4cCI6MjExMDgzNDgyNX0.5XT4wTIMTkpk3BCMeBzbsW3y_lXovrgXXGn4jv2wNk4';
+    const REST = SUPABASE_URL + '/rest/v1';
+    // 4자리 비밀번호는 평문이 아니라 SHA-256 해시로만 비교합니다.
+    const PIN_HASH = '1426279dcbdf749f1edd7e89fd9db820fc3e5ce2930fa63ce9c5dce9af3da447';
+
     const STORAGE_EV = 'goun_friend_schedule_events_v1';
     const STORAGE_MEMO = 'goun_friend_schedule_memos_v1';
+    const STORAGE_AUTH = 'goun_jk_auth_v1';
+    const STORAGE_SEED = 'goun_jk_seeded_v1';
 
+    const SETUP_SQL = `-- 우리 둘의 스케줄: Supabase 테이블 준비용 SQL
+-- Supabase 대시보드 > SQL Editor 에 전체 붙여넣고 RUN 한 번만 누르면 됩니다.
+create table if not exists public.schedule_events (
+  id text primary key,
+  date date not null,
+  time text,
+  owner text not null check (owner in ('goun','friend','together')),
+  title text not null,
+  note text,
+  created_at timestamptz not null default now()
+);
+
+create table if not exists public.schedule_memos (
+  id text primary key,
+  text text not null,
+  done boolean not null default false,
+  created_at timestamptz not null default now()
+);
+
+alter table public.schedule_events enable row level security;
+alter table public.schedule_memos enable row level security;
+grant select, insert, update, delete on public.schedule_events to anon, authenticated;
+grant select, insert, update, delete on public.schedule_memos to anon, authenticated;
+
+create or replace function public.pin_ok() returns boolean
+language sql stable as $fn$
+  select encode(sha256(convert_to(coalesce(current_setting('request.headers', true)::json ->> 'x-pin', ''), 'UTF8')), 'hex')
+       = '${PIN_HASH}'
+$fn$;
+
+drop policy if exists "events_pin" on public.schedule_events;
+create policy "events_pin" on public.schedule_events for all to anon, authenticated
+  using (public.pin_ok()) with check (public.pin_ok());
+
+drop policy if exists "memos_pin" on public.schedule_memos;
+create policy "memos_pin" on public.schedule_memos for all to anon, authenticated
+  using (public.pin_ok()) with check (public.pin_ok());`;
+
+    /* ─────────────────────────────────────────────
+       기본(예시) 데이터 — DB가 비어 있을 때 한 번만 채웁니다
+       ───────────────────────────────────────────── */
     const defaultEvents = [
-      { id: 1, date: '2026-11-21', time: '14:00', owner: 'together', title: '카페 & 수다 타임', note: '조용한 카페 가기' },
-      { id: 2, date: '2026-11-24', time: '12:30', owner: 'together', title: '점심 브런치 & 수다', note: '화명동 카페 후보 정하기' },
-      { id: 3, date: '2026-11-26', time: '19:00', owner: 'friend', title: 'JK 저녁 약속', note: '7시 이후 통화 가능' },
-      { id: 4, date: '2026-11-29', time: '11:00', owner: 'together', title: '일본/국내 여행 코스 짜기', note: '노트북 챙겨오기' }
+      { id: '1', date: '2026-11-21', time: '14:00', owner: 'together', title: '카페 & 수다 타임', note: '조용한 카페 가기' },
+      { id: '2', date: '2026-11-24', time: '12:30', owner: 'together', title: '점심 브런치 & 수다', note: '화명동 카페 후보 정하기' },
+      { id: '3', date: '2026-11-26', time: '19:00', owner: 'friend', title: 'JK 저녁 약속', note: '7시 이후 통화 가능' },
+      { id: '4', date: '2026-11-29', time: '11:00', owner: 'together', title: '일본/국내 여행 코스 짜기', note: '노트북 챙겨오기' }
     ];
 
     const defaultMemos = [
-      { id: 1, text: '마들렌 맛있는 디저트 카페 가기', done: false },
-      { id: 2, text: '다음 모임 날짜 확정하기', done: true },
-      { id: 3, text: '항공권·배편 일정 같이 보기', done: false }
+      { id: '1', text: '마들렌 맛있는 디저트 카페 가기', done: false },
+      { id: '2', text: '다음 모임 날짜 확정하기', done: true },
+      { id: '3', text: '항공권·배편 일정 같이 보기', done: false }
     ];
 
-    let events = JSON.parse(localStorage.getItem(STORAGE_EV) || 'null') || defaultEvents;
-    let memos = JSON.parse(localStorage.getItem(STORAGE_MEMO) || 'null') || defaultMemos;
+    /* ─────────────────────────────────────────────
+       상태
+       ───────────────────────────────────────────── */
+    const TAG = '[our-schedule]';
+    const state = {
+      pin: null,
+      mode: 'local',          // 'cloud' | 'local'
+      events: [],
+      memos: [],
+      syncing: false,
+      lastSyncAt: null,
+      bannerKind: null        // 'setup' | 'auth' | 'offline' | null
+    };
+
+    const NOW = new Date();
+    const TODAY_STR = `${NOW.getFullYear()}-${String(NOW.getMonth() + 1).padStart(2, '0')}-${String(NOW.getDate()).padStart(2, '0')}`;
 
     let currentYear = NOW.getFullYear();
     let currentMonth = NOW.getMonth();
     let selectedDate = TODAY_STR;
     let activeFilter = 'all';
 
-    function saveAll() {
-      localStorage.setItem(STORAGE_EV, JSON.stringify(events));
-      localStorage.setItem(STORAGE_MEMO, JSON.stringify(memos));
+    const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+      { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+    ));
+
+    /* ─────────────────────────────────────────────
+       SHA-256
+       ───────────────────────────────────────────── */
+    function sha256Fallback(bytes) {
+      const K = [
+        0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,
+        0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,
+        0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,
+        0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,
+        0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,
+        0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,
+        0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,
+        0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2
+      ];
+      const h = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+      const rotr = (x, n) => (x >>> n) | (x << (32 - n));
+      const msg = new Uint8Array(((bytes.length + 9 + 63) >> 6) << 6);
+      msg.set(bytes);
+      msg[bytes.length] = 0x80;
+      const bitLen = bytes.length * 8;
+      const dv = new DataView(msg.buffer);
+      dv.setUint32(msg.length - 4, bitLen >>> 0, false);
+      dv.setUint32(msg.length - 8, Math.floor(bitLen / 4294967296), false);
+      const w = new Uint32Array(64);
+      for (let off = 0; off < msg.length; off += 64) {
+        for (let i = 0; i < 16; i++) w[i] = dv.getUint32(off + i * 4, false);
+        for (let i = 16; i < 64; i++) {
+          const s0 = rotr(w[i-15], 7) ^ rotr(w[i-15], 18) ^ (w[i-15] >>> 3);
+          const s1 = rotr(w[i-2], 17) ^ rotr(w[i-2], 19) ^ (w[i-2] >>> 10);
+          w[i] = (w[i-16] + s0 + w[i-7] + s1) >>> 0;
+        }
+        let [a, b, c, d, e, f, g, hh] = h;
+        for (let i = 0; i < 64; i++) {
+          const S1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+          const ch = (e & f) ^ (~e & g);
+          const t1 = (hh + S1 + ch + K[i] + w[i]) >>> 0;
+          const S0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+          const maj = (a & b) ^ (a & c) ^ (b & c);
+          const t2 = (S0 + maj) >>> 0;
+          hh = g; g = f; f = e; e = (d + t1) >>> 0;
+          d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+        }
+        h[0] = (h[0] + a) >>> 0; h[1] = (h[1] + b) >>> 0;
+        h[2] = (h[2] + c) >>> 0; h[3] = (h[3] + d) >>> 0;
+        h[4] = (h[4] + e) >>> 0; h[5] = (h[5] + f) >>> 0;
+        h[6] = (h[6] + g) >>> 0; h[7] = (h[7] + hh) >>> 0;
+      }
+      return h.map(x => x.toString(16).padStart(8, '0')).join('');
     }
 
+    async function sha256hex(str) {
+      const bytes = new TextEncoder().encode(str);
+      if (window.crypto && window.crypto.subtle && window.crypto.subtle.digest) {
+        try {
+          const digest = await window.crypto.subtle.digest('SHA-256', bytes);
+          return [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+        } catch (e) {
+          return sha256Fallback(bytes);
+        }
+      }
+      return sha256Fallback(bytes);
+    }
+
+    /* ─────────────────────────────────────────────
+       로컬 저장 / 불러오기
+       ───────────────────────────────────────────── */
+    function readJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return fallback;
+        const v = JSON.parse(raw);
+        return Array.isArray(v) ? v : fallback;
+      } catch (e) { return fallback; }
+    }
+
+    function saveLocal() {
+      try {
+        localStorage.setItem(STORAGE_EV, JSON.stringify(state.events));
+        localStorage.setItem(STORAGE_MEMO, JSON.stringify(state.memos));
+      } catch (e) { /* 저장 공간 부족 등 — 무시 */ }
+    }
+
+    function newId(prefix) {
+      return prefix + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+    }
+
+    /* ─────────────────────────────────────────────
+       Supabase REST
+       ───────────────────────────────────────────── */
+    function headers(extra) {
+      const h = {
+        'apikey': SUPABASE_KEY,
+        'Authorization': 'Bearer ' + SUPABASE_KEY,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+      if (state.pin) h['x-pin'] = state.pin;
+      return Object.assign(h, extra || {});
+    }
+
+    async function api(path, options) {
+      const res = await fetch(REST + path, Object.assign({ headers: headers() }, options || {}));
+      let body = null;
+      const text = await res.text();
+      if (text) { try { body = JSON.parse(text); } catch (e) { body = text; } }
+      if (!res.ok) {
+        const err = new Error((body && body.message) || ('HTTP ' + res.status));
+        err.status = res.status;
+        err.body = body;
+        throw err;
+      }
+      return body;
+    }
+
+    function isMissingTable(err) {
+      if (!err) return false;
+      const code = err.body && err.body.code;
+      const msg = String((err.body && err.body.message) || err.message || '');
+      return code === 'PGRST205' || code === '42P01' ||
+        /Could not find the table/i.test(msg) || /relation .* does not exist/i.test(msg);
+    }
+
+    function rowFromEvent(ev) {
+      return {
+        id: String(ev.id),
+        date: ev.date,
+        time: ev.time || null,
+        owner: ev.owner,
+        title: ev.title,
+        note: ev.note ? ev.note : null
+      };
+    }
+
+    function eventFromRow(r) {
+      return {
+        id: String(r.id),
+        date: r.date,
+        time: r.time || '',
+        owner: r.owner,
+        title: r.title,
+        note: r.note || ''
+      };
+    }
+
+    function rowFromMemo(m) {
+      return { id: String(m.id), text: m.text, done: !!m.done };
+    }
+
+    function memoFromRow(r) {
+      return { id: String(r.id), text: r.text, done: !!r.done };
+    }
+
+    async function fetchAll() {
+      const [evs, memos] = await Promise.all([
+        api('/schedule_events?select=*&order=date.asc,time.asc'),
+        api('/schedule_memos?select=*&order=created_at.desc')
+      ]);
+      return {
+        events: (evs || []).map(eventFromRow),
+        memos: (memos || []).map(memoFromRow)
+      };
+    }
+
+    /* ─────────────────────────────────────────────
+       동기화
+       ───────────────────────────────────────────── */
+    function setStatus(text, warn) {
+      const el = document.getElementById('syncStatus');
+      el.innerHTML = `<span class="sync-dot${warn ? ' warn' : ''}"></span>${esc(text)}`;
+    }
+
+    function hideBanner() {
+      state.bannerKind = null;
+      document.getElementById('setupBanner').classList.add('hidden');
+    }
+
+    function showBanner(kind, title, bodyHtml) {
+      const changed = state.bannerKind !== kind;
+      state.bannerKind = kind;
+      const banner = document.getElementById('setupBanner');
+      document.getElementById('bannerTitle').textContent = title;
+      document.getElementById('bannerBody').innerHTML = bodyHtml;
+      banner.classList.remove('hidden');
+      const actions = document.getElementById('bannerActions');
+      if (kind === 'setup') {
+        actions.innerHTML = '<button class="small-btn" id="showSqlBtn">설정 SQL 보기</button>' +
+          '<button class="small-btn" id="copySqlBtn">SQL 복사</button>' +
+          '<button class="small-btn" id="retryBtn">다시 연결</button>';
+        document.getElementById('showSqlBtn').onclick = () => {
+          const box = document.getElementById('sqlBox');
+          box.classList.toggle('hidden');
+          document.getElementById('showSqlBtn').textContent = box.classList.contains('hidden') ? '설정 SQL 보기' : 'SQL 접기';
+        };
+        document.getElementById('copySqlBtn').onclick = copySql;
+        document.getElementById('retryBtn').onclick = () => syncNow();
+      } else {
+        actions.innerHTML = '<button class="small-btn" id="retryBtn">다시 연결</button>';
+        document.getElementById('retryBtn').onclick = () => syncNow();
+      }
+      if (changed && kind === 'setup') {
+        document.getElementById('sqlBox').textContent = SETUP_SQL;
+        document.getElementById('sqlBox').classList.add('hidden');
+      }
+    }
+
+    async function copySql() {
+      const btn = document.getElementById('copySqlBtn');
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(SETUP_SQL);
+        } else {
+          const ta = document.createElement('textarea');
+          ta.value = SETUP_SQL;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        if (btn) btn.textContent = '복사했어요 ✓';
+        setTimeout(() => { if (btn) btn.textContent = 'SQL 복사'; }, 1800);
+      } catch (e) {
+        const box = document.getElementById('sqlBox');
+        box.classList.remove('hidden');
+        if (btn) btn.textContent = '아래 SQL을 길게 눌러 복사';
+      }
+    }
+
+    async function seedCloud() {
+      if (localStorage.getItem(STORAGE_SEED)) return;
+      const localEv = readJSON(STORAGE_EV, []);
+      const localMemo = readJSON(STORAGE_MEMO, []);
+      const evRows = (localEv.length ? localEv : defaultEvents).map(rowFromEvent);
+      const memoRows = (localMemo.length ? localMemo : defaultMemos).map(rowFromMemo);
+      await api('/schedule_events', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(evRows) });
+      await api('/schedule_memos', { method: 'POST', headers: headers({ 'Prefer': 'return=minimal' }), body: JSON.stringify(memoRows) });
+      localStorage.setItem(STORAGE_SEED, '1');
+    }
+
+    let syncPromise = null;
+    function syncNow(quiet) {
+      if (!state.pin) return Promise.resolve();
+      if (syncPromise) return syncPromise;
+      state.syncing = true;
+      if (!quiet) setStatus('동기화 중…');
+      syncPromise = (async () => {
+        try {
+          let data = await fetchAll();
+          if (data.events.length === 0 && data.memos.length === 0) {
+            await seedCloud();
+            data = await fetchAll();
+          }
+          state.events = data.events;
+          state.memos = data.memos;
+          state.mode = 'cloud';
+          state.lastSyncAt = new Date();
+          saveLocal();
+          hideBanner();
+          renderAll();
+          setStatus('실시간 동기화 중 · ' + timeLabel(state.lastSyncAt));
+        } catch (err) {
+          state.mode = 'local';
+          if (isMissingTable(err)) {
+            showBanner('setup', '실시간 저장소 설정이 아직 안 됐어요',
+              '지금은 이 기기에만 저장되고 있어요. Supabase SQL Editor에 아래 SQL을 한 번만 실행하면, 두 사람 폰에 바로 같이 보여요.');
+          } else if (err.status === 401 || err.status === 403) {
+            showBanner('auth', '비밀번호 확인이 필요해요',
+              '실시간 저장소가 요청을 거절했어요(권한 오류). SQL의 비밀번호 부분이 이 페이지와 같은지 확인해 주세요.');
+          } else {
+            showBanner('offline', '지금은 실시간 연결이 안 돼요',
+              '인터넷 연결을 확인해 주세요. 연결되는 동안에는 이 기기에 저장되고, 연결되면 자동으로 다시 맞춰요.');
+          }
+          setStatusLocal();
+          renderAll();
+        } finally {
+          state.syncing = false;
+          syncPromise = null;
+        }
+      })();
+      return syncPromise;
+    }
+
+    function setStatusLocal() {
+      setStatus(state.bannerKind === 'setup' ? '이 기기에만 저장 중' :
+        (state.bannerKind === 'auth' ? '권한 오류 — 이 기기에만 저장 중' : '오프라인 — 이 기기에만 저장 중'), true);
+    }
+
+    function timeLabel(d) {
+      return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+    }
+
+    /* ─────────────────────────────────────────────
+       잠금
+       ───────────────────────────────────────────── */
+    let pinBuffer = '';
+
+    function renderPinDots() {
+      const dots = document.querySelectorAll('#pinDots span');
+      dots.forEach((d, i) => d.classList.toggle('filled', i < pinBuffer.length));
+    }
+
+    function showLock() {
+      pinBuffer = '';
+      renderPinDots();
+      document.getElementById('pinError').textContent = '';
+      document.getElementById('lockScreen').classList.remove('hidden');
+    }
+
+    function hideLock() {
+      document.getElementById('lockScreen').classList.add('hidden');
+    }
+
+    async function handlePinComplete() {
+      const entered = pinBuffer;
+      const hash = await sha256hex(entered);
+      if (hash === PIN_HASH) {
+        state.pin = entered;
+        try { localStorage.setItem(STORAGE_AUTH, JSON.stringify({ pin: entered, at: Date.now() })); } catch (e) {}
+        hideLock();
+        state.events = readJSON(STORAGE_EV, defaultEvents);
+        state.memos = readJSON(STORAGE_MEMO, defaultMemos);
+        renderAll();
+        syncNow();
+      } else {
+        const box = document.querySelector('.lock-box');
+        document.getElementById('pinError').textContent = '비밀번호가 달라요. 다시 입력해 주세요.';
+        box.classList.add('shake');
+        if (navigator.vibrate) navigator.vibrate(60);
+        setTimeout(() => {
+          box.classList.remove('shake');
+          pinBuffer = '';
+          renderPinDots();
+        }, 340);
+      }
+    }
+
+    function pressKey(k) {
+      if (document.getElementById('lockScreen').classList.contains('hidden')) return;
+      if (k === 'clear') { pinBuffer = ''; renderPinDots(); return; }
+      if (k === 'back') { pinBuffer = pinBuffer.slice(0, -1); renderPinDots(); return; }
+      if (!/^[0-9]$/.test(k)) return;
+      if (pinBuffer.length >= 4) return;
+      pinBuffer += k;
+      document.getElementById('pinError').textContent = '';
+      renderPinDots();
+      if (pinBuffer.length === 4) handlePinComplete();
+    }
+
+    function lockAgain() {
+      state.pin = null;
+      try { localStorage.removeItem(STORAGE_AUTH); } catch (e) {}
+      state.mode = 'local';
+      hideBanner();
+      showLock();
+    }
+
+    /* ─────────────────────────────────────────────
+       렌더링
+       ───────────────────────────────────────────── */
     function formatDateStr(y, m, d) {
       return `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     }
 
     function updateDday() {
       const today = new Date(TODAY_STR + 'T00:00:00');
-      const upcoming = events
+      const upcoming = state.events
         .filter(e => e.owner === 'together' && e.date >= TODAY_STR)
         .sort((a, b) => a.date.localeCompare(b.date))[0];
       const pill = document.getElementById('ddayPill');
@@ -564,7 +1215,7 @@
       }
       const target = new Date(upcoming.date + 'T00:00:00');
       const diff = Math.round((target - today) / (1000 * 60 * 60 * 24));
-      pill.textContent = diff === 0 ? `오늘 약속! 🎉` : `우리 약속 D-${diff}`;
+      pill.textContent = diff === 0 ? '오늘 약속! 🎉' : `우리 약속 D-${diff}`;
     }
 
     function renderCalendar() {
@@ -590,7 +1241,7 @@
         if (dStr === TODAY_STR) cell.classList.add('today');
         if (dStr === selectedDate) cell.classList.add('selected');
 
-        const dayEvents = events.filter(e => e.date === dStr && (activeFilter === 'all' || e.owner === activeFilter));
+        const dayEvents = state.events.filter(e => e.date === dStr && (activeFilter === 'all' || e.owner === activeFilter));
         const owners = [...new Set(dayEvents.map(e => e.owner))].slice(0, 3);
         const colorMap = { goun: 'var(--goun)', friend: 'var(--friend)', together: 'var(--together)' };
         const dotsHtml = owners.map(o => `<span class="day-dot" style="background:${colorMap[o]}"></span>`).join('');
@@ -606,10 +1257,10 @@
     }
 
     function renderEvents() {
-      const [y, m, d] = selectedDate.split('-');
-      document.getElementById('selectedDateLabel').textContent = `${Number(m)}월 ${Number(d)}일 일정`;
+      const parts = selectedDate.split('-');
+      document.getElementById('selectedDateLabel').textContent = `${Number(parts[1])}월 ${Number(parts[2])}일 일정`;
 
-      const list = events
+      const list = state.events
         .filter(e => e.date === selectedDate && (activeFilter === 'all' || e.owner === activeFilter))
         .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
 
@@ -627,52 +1278,186 @@
         friend: { label: 'JK', cls: 'badge-friend' }
       };
 
-      container.innerHTML = list.map(ev => `
-        <div class="event-item ${ev.owner}">
-          <span class="event-badge ${ownerInfo[ev.owner].cls}">${ownerInfo[ev.owner].label}</span>
+      container.innerHTML = list.map(ev => {
+        const info = ownerInfo[ev.owner] || ownerInfo.together;
+        return `
+        <div class="event-item ${esc(ev.owner)}">
+          <span class="event-badge ${info.cls}">${info.label}</span>
           <div class="event-body">
-            <div class="event-title">${ev.title}</div>
-            <div class="event-meta">${ev.time || '시간 미정'}${ev.note ? ' · ' + ev.note : ''}</div>
+            <div class="event-title">${esc(ev.title)}</div>
+            <div class="event-meta">${ev.time ? esc(ev.time) : '시간 미정'}${ev.note ? ' · ' + esc(ev.note) : ''}</div>
           </div>
-          <button class="del-btn" onclick="deleteEvent(${ev.id})" title="삭제">✕</button>
-        </div>
-      `).join('');
-    }
+          <button class="del-btn" data-ev-del="${esc(ev.id)}" title="삭제">✕</button>
+        </div>`;
+      }).join('');
 
-    window.deleteEvent = function(id) {
-      events = events.filter(e => e.id !== id);
-      saveAll();
-      updateDday();
-      renderCalendar();
-      renderEvents();
-    };
+      container.querySelectorAll('[data-ev-del]').forEach(btn => {
+        btn.onclick = () => deleteEvent(btn.dataset.evDel);
+      });
+    }
 
     function renderMemos() {
       const container = document.getElementById('memoList');
-      if (memos.length === 0) {
+      if (state.memos.length === 0) {
         container.innerHTML = `<div class="empty">같이 가고 싶은 곳이나 할 일을 적어보세요!</div>`;
         return;
       }
-      container.innerHTML = memos.map(m => `
-        <div class="memo-item ${m.done ? 'done' : ''}">
-          <input type="checkbox" ${m.done ? 'checked' : ''} onchange="toggleMemo(${m.id})" />
-          <span>${m.text}</span>
-          <button class="del-btn" onclick="deleteMemo(${m.id})">✕</button>
+      container.innerHTML = state.memos.map(m => `
+        <div class="memo-item ${m.done ? 'done' : ''}" data-memo="${esc(m.id)}">
+          <input type="checkbox" ${m.done ? 'checked' : ''} data-memo-check="${esc(m.id)}" />
+          <span>${esc(m.text)}</span>
+          <button class="del-btn" data-memo-del="${esc(m.id)}">✕</button>
         </div>
       `).join('');
+
+      container.querySelectorAll('[data-memo-check]').forEach(cb => {
+        cb.onchange = () => toggleMemo(cb.dataset.memoCheck);
+      });
+      container.querySelectorAll('[data-memo-del]').forEach(btn => {
+        btn.onclick = () => deleteMemo(btn.dataset.memoDel);
+      });
     }
 
-    window.toggleMemo = function(id) {
-      memos = memos.map(m => m.id === id ? { ...m, done: !m.done } : m);
-      saveAll();
+    function renderAll() {
+      updateDday();
+      renderCalendar();
+      renderEvents();
       renderMemos();
-    };
-    window.deleteMemo = function(id) {
-      memos = memos.filter(m => m.id !== id);
-      saveAll();
-      renderMemos();
-    };
+    }
 
+    /* ─────────────────────────────────────────────
+       쓰기 동작
+       ───────────────────────────────────────────── */
+    function onWriteFail(err) {
+      state.mode = 'local';
+      if (isMissingTable(err)) {
+        showBanner('setup', '실시간 저장소 설정이 아직 안 됐어요',
+          '지금은 이 기기에만 저장되고 있어요. Supabase SQL Editor에 아래 SQL을 한 번만 실행하면, 두 사람 폰에 바로 같이 보여요.');
+      } else if (err.status === 401 || err.status === 403) {
+        showBanner('auth', '비밀번호 확인이 필요해요',
+          '실시간 저장소가 요청을 거절했어요(권한 오류). SQL의 비밀번호 부분이 이 페이지와 같은지 확인해 주세요.');
+      } else {
+        showBanner('offline', '지금은 실시간 연결이 안 돼요',
+          '인터넷 연결을 확인해 주세요. 연결되는 동안에는 이 기기에 저장돼요.');
+      }
+      setStatusLocal();
+    }
+
+    async function deleteEvent(id) {
+      const before = state.events;
+      state.events = state.events.filter(e => String(e.id) !== String(id));
+      saveLocal();
+      renderAll();
+      if (state.mode === 'cloud') {
+        try {
+          await api('/schedule_events?id=eq.' + encodeURIComponent(id), { method: 'DELETE' });
+        } catch (err) {
+          state.events = before;
+          saveLocal();
+          renderAll();
+          onWriteFail(err);
+        }
+      }
+    }
+
+    async function toggleMemo(id) {
+      const memo = state.memos.find(m => String(m.id) === String(id));
+      if (!memo) return;
+      const nextDone = !memo.done;
+      memo.done = nextDone;
+      saveLocal();
+      renderMemos();
+      if (state.mode === 'cloud') {
+        try {
+          await api('/schedule_memos?id=eq.' + encodeURIComponent(id), {
+            method: 'PATCH',
+            headers: headers({ 'Prefer': 'return=minimal' }),
+            body: JSON.stringify({ done: nextDone })
+          });
+        } catch (err) {
+          memo.done = !nextDone;
+          saveLocal();
+          renderMemos();
+          onWriteFail(err);
+        }
+      }
+    }
+
+    async function deleteMemo(id) {
+      const before = state.memos;
+      state.memos = state.memos.filter(m => String(m.id) !== String(id));
+      saveLocal();
+      renderMemos();
+      if (state.mode === 'cloud') {
+        try {
+          await api('/schedule_memos?id=eq.' + encodeURIComponent(id), { method: 'DELETE' });
+        } catch (err) {
+          state.memos = before;
+          saveLocal();
+          renderMemos();
+          onWriteFail(err);
+        }
+      }
+    }
+
+    async function addMemo() {
+      const input = document.getElementById('memoInput');
+      const text = input.value.trim();
+      if (!text) return;
+      const memo = { id: newId('m'), text: text, done: false };
+      state.memos.unshift(memo);
+      input.value = '';
+      saveLocal();
+      renderMemos();
+      if (state.mode === 'cloud') {
+        try {
+          await api('/schedule_memos', {
+            method: 'POST',
+            headers: headers({ 'Prefer': 'return=minimal' }),
+            body: JSON.stringify(rowFromMemo(memo))
+          });
+        } catch (err) {
+          onWriteFail(err);
+        }
+      }
+    }
+
+    async function saveEvent() {
+      const titleEl = document.getElementById('evTitle');
+      const title = titleEl.value.trim();
+      if (!title) { alert('일정 제목을 입력해 주세요!'); return; }
+      const date = document.getElementById('evDate').value || selectedDate;
+      const time = document.getElementById('evTime').value;
+      const owner = document.getElementById('evOwner').value;
+      const note = document.getElementById('evNote').value.trim();
+
+      const ev = { id: newId('e'), date: date, time: time, owner: owner, title: title, note: note };
+      state.events.push(ev);
+      selectedDate = date;
+      const parts = date.split('-');
+      currentYear = Number(parts[0]);
+      currentMonth = Number(parts[1]) - 1;
+
+      saveLocal();
+      document.getElementById('modalBackdrop').classList.remove('open');
+      renderAll();
+
+      if (state.mode === 'cloud') {
+        try {
+          await api('/schedule_events', {
+            method: 'POST',
+            headers: headers({ 'Prefer': 'return=minimal' }),
+            body: JSON.stringify(rowFromEvent(ev))
+          });
+        } catch (err) {
+          onWriteFail(err);
+        }
+      }
+    }
+
+    /* ─────────────────────────────────────────────
+       이벤트 연결
+       ───────────────────────────────────────────── */
     document.querySelectorAll('.chip').forEach(btn => {
       btn.onclick = () => {
         document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
@@ -705,15 +1490,10 @@
       renderCalendar();
     };
 
-    document.getElementById('addMemoBtn').onclick = () => {
-      const input = document.getElementById('memoInput');
-      const text = input.value.trim();
-      if (!text) return;
-      memos.unshift({ id: Date.now(), text, done: false });
-      input.value = '';
-      saveAll();
-      renderMemos();
-    };
+    document.getElementById('addMemoBtn').onclick = addMemo;
+    document.getElementById('memoInput').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addMemo();
+    });
 
     const backdrop = document.getElementById('modalBackdrop');
     document.getElementById('openModalBtn').onclick = () => {
@@ -724,32 +1504,61 @@
     };
     document.getElementById('closeModalBtn').onclick = () => backdrop.classList.remove('open');
     backdrop.onclick = (e) => { if (e.target === backdrop) backdrop.classList.remove('open'); };
+    document.getElementById('saveEventBtn').onclick = saveEvent;
 
-    document.getElementById('saveEventBtn').onclick = () => {
-      const title = document.getElementById('evTitle').value.trim();
-      if (!title) return alert('일정 제목을 입력해 주세요!');
-      const date = document.getElementById('evDate').value || selectedDate;
-      const time = document.getElementById('evTime').value;
-      const owner = document.getElementById('evOwner').value;
-      const note = document.getElementById('evNote').value.trim();
-
-      events.push({ id: Date.now(), date, time, owner, title, note });
-      selectedDate = date;
-      const [y, m] = date.split('-');
-      currentYear = Number(y);
-      currentMonth = Number(m) - 1;
-
-      saveAll();
-      backdrop.classList.remove('open');
-      updateDday();
-      renderCalendar();
-      renderEvents();
+    document.getElementById('lockBtn').onclick = lockAgain;
+    document.getElementById('refreshBtn').onclick = () => {
+      if (!state.pin) return;
+      syncNow();
     };
 
-    updateDday();
-    renderCalendar();
-    renderEvents();
-    renderMemos();
+    document.getElementById('keypad').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-key]');
+      if (btn) pressKey(btn.dataset.key);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (document.getElementById('lockScreen').classList.contains('hidden')) return;
+      if (/^[0-9]$/.test(e.key)) pressKey(e.key);
+      else if (e.key === 'Backspace') pressKey('back');
+      else if (e.key === 'Escape') pressKey('clear');
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden && state.pin && shouldPoll()) syncNow(true);
+    });
+
+    function shouldPoll() {
+      return state.mode === 'cloud' || state.bannerKind === 'offline';
+    }
+
+    setInterval(() => {
+      if (state.pin && !document.hidden && shouldPoll()) syncNow(true);
+    }, 10000);
+
+    /* ─────────────────────────────────────────────
+       시작
+       ───────────────────────────────────────────── */
+    (async function init() {
+      state.events = readJSON(STORAGE_EV, defaultEvents);
+      state.memos = readJSON(STORAGE_MEMO, defaultMemos);
+      renderAll();
+      setStatus('연결 확인 중…', true);
+
+      let auth = null;
+      try { auth = JSON.parse(localStorage.getItem(STORAGE_AUTH) || 'null'); } catch (e) { auth = null; }
+
+      if (auth && auth.pin) {
+        const hash = await sha256hex(String(auth.pin));
+        if (hash === PIN_HASH) {
+          state.pin = String(auth.pin);
+          hideLock();
+          await syncNow();
+          return;
+        }
+      }
+      showLock();
+    })();
   </script>
 </body>
 </html>
