@@ -517,7 +517,8 @@
   </div>
 
   <script>
-    const TODAY_STR = '2026-11-21';
+    const NOW = new Date();
+    const TODAY_STR = `${NOW.getFullYear()}-${String(NOW.getMonth() + 1).padStart(2, '0')}-${String(NOW.getDate()).padStart(2, '0')}`;
     const STORAGE_EV = 'goun_friend_schedule_events_v1';
     const STORAGE_MEMO = 'goun_friend_schedule_memos_v1';
 
@@ -537,8 +538,8 @@
     let events = JSON.parse(localStorage.getItem(STORAGE_EV) || 'null') || defaultEvents;
     let memos = JSON.parse(localStorage.getItem(STORAGE_MEMO) || 'null') || defaultMemos;
 
-    let currentYear = 2026;
-    let currentMonth = 10; // 0-indexed: 10 = November
+    let currentYear = NOW.getFullYear();
+    let currentMonth = NOW.getMonth();
     let selectedDate = TODAY_STR;
     let activeFilter = 'all';
 
